@@ -78,12 +78,12 @@ class TotalRun(PluginBase):
                 src_node=core.load_pointer(node, 'src')
                 dst_path=core.get_path(dst_node)
                 src_path=core.get_path(src_node)
-                attr=core.get_attribute_names(node)
-                if 'Capacity' in attr:
+                meta_tr=core.get_meta_type(node)
+                if core.get_attribute(meta_tr, 'name')=='PlaceToTransitionArc':
                     #check if thing is enabled
-                    thresh=core.get_attribute(dst_node, 'Threshold')
+                    thresh=core.get_attribute(dst_node, 'Tokens')
                     tokens=core.get_attribute(src_node, 'Tokens')
-                    cap=core.get_attribute(node, 'Capacity')
+                    cap=core.get_attribute(node, 'Tokens')
                     #logger.info('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
                     #logger.info(thresh)
                     #logger.info(tokens)
@@ -108,15 +108,15 @@ class TotalRun(PluginBase):
                     #    logger.info('----------------------------------------------------------------------------------')
                     if dst_path in drains:
                         #logger.info('ROUND 2 BBYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY')
-                        drains[dst_path].append(src_path)
+                        drains[dst_path].append((src_path, cap))
                     else:
                         #logger.info('i did it reddittttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt')
-                        drains[dst_path]=[src_path]
+                        drains[dst_path]=[(src_path, cap)]
                 else:
                     #this can be done later.
                     #this should figure out weight assignments on the other side
                     try:
-                        weight=core.get_attribute(node, 'Weight')
+                        weight=core.get_attribute(node, 'Tokens')
                         thresh_path=core.get_path(src_node)
                         if src_path in feeds:
                             feeds[src_path].append((dst_path, weight))
@@ -177,11 +177,24 @@ class TotalRun(PluginBase):
             logger.info(drains)
             logger.info(to_drain)
             for d in to_drain:
-            
-                logger.info(core.get_path(root_node))
-                logger.info(d)
-                cur=core.load_by_path(root_node, d)
-                core.set_attribute(cur, 'Tokens', '')
+                #logger.info(core.get_path(root_node))
+                #logger.info(d)
+                cur=core.load_by_path(root_node, d[0])
+                token_list=[]
+                if not d[1]=='':
+                    to_change=core.get_attribute(cur, 'Tokens')
+                    weights={}
+                    if not to_change=='':
+                        for entry in to_change.split(';'):
+                            weights[entry.split(':')[0]]=int(entry.split(':')[1])
+                    for entry in d[1].split(';'):
+                        cur_key, cur_val=entry.split(':')
+                        cur_val=int(cur_val)
+                        if cur_key in weights:
+                            if weights[cur_key]-cur_val>0:
+                                token_list.append(cur_key+':'+str(weights[cur_key]-cur_val))
+                core.set_attribute(cur, 'Tokens', ';'.join(token_list))
+
 
             for fe in to_feed:
                 f=fe[0]
@@ -201,7 +214,7 @@ class TotalRun(PluginBase):
                     logger.info('the following is to_change->{0}END'.format(to_change))
                     for entry in str_ar:
                         logger.info('the following is entry->{0}END'.format(entry))
-                        if entry in weights:
+                        if entry.split(':')[0] in weights:
                             weights[entry.split(':')[0]]=weights[entry.split(':')[0]]+int(entry.split(':')[1])
                         else:
                             weights[entry.split(':')[0]]=int(entry.split(':')[1])
