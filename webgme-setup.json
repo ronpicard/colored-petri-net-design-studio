@@ -4,6 +4,10 @@
       "AllPossible": {
         "src": "src/plugins/AllPossible",
         "test": "test/plugins/AllPossible"
+      },
+      "IsDeterministic": {
+        "src": "src/plugins/IsDeterministic",
+        "test": "test/plugins/IsDeterministic"
       }
     }
   },
