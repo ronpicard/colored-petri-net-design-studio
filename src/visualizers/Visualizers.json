@@ -1,0 +1,8 @@
+[
+  {
+    "id": "SimulationVisualizer",
+    "title": "SimulationVisualizer",
+    "panel": "panels/SimulationVisualizer/SimulationVisualizerPanel",
+    "DEBUG_ONLY": false
+  }
+]

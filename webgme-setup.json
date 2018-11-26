@@ -9,9 +9,19 @@
         "src": "src/plugins/IsDeterministic",
         "test": "test/plugins/IsDeterministic"
       }
+    },
+    "visualizers": {
+      "SimulationVisualizer": {
+        "src": "panels/SimulationVisualizer/SimulationVisualizerPanel",
+        "title": "SimulationVisualizer",
+        "panel": "src/visualizers/panels/SimulationVisualizer",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/SimulationVisualizer"
+      }
     }
   },
   "dependencies": {
-    "plugins": {}
+    "plugins": {},
+    "visualizers": {}
   }
 }
