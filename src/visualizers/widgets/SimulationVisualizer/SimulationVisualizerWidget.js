@@ -14,7 +14,7 @@ define(['css!./styles/SimulationVisualizerWidget.css'], function () {
         this._logger = logger.fork('Widget');
 
         this._el = container;
-
+        
         this.nodes = {};
         this._initialize();
 
@@ -54,15 +54,49 @@ define(['css!./styles/SimulationVisualizerWidget.css'], function () {
             if (desc.childrenIds.length === 1) {
                 label = 'child';
             }
-
+            
             this.nodes[desc.id] = desc;
-            node.innerHTML = 'Adding node "' + desc.name + '" (click to view). It has ' + 
+            node.innerHTML = 'Adding node "' + desc.name + '" (click to view). ' + 
                 desc.childrenIds.length + ' ' + label + '.';
-
+            
             this._el.append(node);
+            this.addPlaceSVG();
+            this.addTransitionSVG();
             node.onclick = this.onNodeClick.bind(this, desc.id);
         }
     };
+
+    SimulationVisualizerWidget.prototype.addPlaceSVG = function () {
+    var place = '\
+        <svg xmlns="http://www.w3.org/2000/svg" width="120px" height="120px">\
+            <circle cx="60" cy="60" r="60" stroke="black" stroke-width="2" fill="white" />\
+            <%var s=getAttribute("Tokens"); var ar=s.split(";"); var text="test"; var x=60; var y=11; var col="black";%>\
+            <% var i=0; for(i=0; i<ar.length; i++){ %>\
+            <% col=ar[i].split(":")[0]; text=ar[i].split(":")[1];  %>\
+            <text x="<%= x %>" y="<%= y %>" fill="<%= col%>" font-size="15" text-anchor="middle"  >\
+            <%=text%>\
+            </text>\
+            <% y=y+15;}%>\
+        </svg>\
+    ';
+    this._el.append(place);
+    };
+
+    SimulationVisualizerWidget.prototype.addTransitionSVG = function () {
+        var place = '\
+        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="70px">\
+            <rect width="20" height="70" style="fill:rgb(0,0,0);stroke-width:3;stroke:rgb(0,0,0)" />\
+            <%var s=getAttribute("Tokens"); var ar=s.split(";"); var text=""; var x=10; var y=11; var col="black";%>\
+            <% var i=0; for(i=0; i<ar.length; i++){ %>\
+            <% col=ar[i].split(":")[0]; text=ar[i].split(":")[1];  %>\
+            <text x="<%= x %>" y="<%= y %>" fill="<%= col%>" font-size="15"text-anchor="middle"  >\
+            <%=text%>\
+            </text>\
+            <% y=y+15;}%>\
+        </svg>\
+        ';
+        this._el.append(place);
+        };
 
     SimulationVisualizerWidget.prototype.removeNode = function (gmeId) {
         var desc = this.nodes[gmeId];
