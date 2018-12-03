@@ -48,7 +48,7 @@ define([
     SimulationVisualizerControl.prototype.selectedObjectChanged = function (nodeId) {
         var desc = this._getObjectDescriptor(nodeId),
             self = this;
-            
+
         self._logger.debug('activeObject nodeId \'' + nodeId + '\'');
 
         // Remove current territory patterns

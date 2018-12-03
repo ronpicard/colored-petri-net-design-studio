@@ -12,5 +12,8 @@ var config = require('./config.webgme'),
 config.plugin.allowServerExecution = true;
 config.core.enableCustomConstraints = true;
 
+config.requirejsPaths.lodash = './node_modules/lodash/lodash.min';
+config.requirejsPaths.backbone = './node_modules/backbone/backbone.min';
+
 validateConfig(config);
 module.exports = config;

@@ -17,6 +17,13 @@
         "panel": "src/visualizers/panels/SimulationVisualizer",
         "secondary": false,
         "widget": "src/visualizers/widgets/SimulationVisualizer"
+      },
+      "JointJs": {
+        "src": "panels/JointJs/JointJsPanel",
+        "title": "JointJs",
+        "panel": "src/visualizers/panels/JointJs",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/JointJs"
       }
     }
   },
