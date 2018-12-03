@@ -22,6 +22,18 @@ define(['js/Constants'
 
         this._currentNodeId = null;
         this._currentNodeParentId = undefined;
+        
+        // Declared the network here -RP
+        this._network = null;
+
+        // Declared the screen positions here -RP
+        this._screenPositions = null;
+
+        // Declared the screen positions here -RP
+        this._lastPlacePosition = null;
+
+        // Declared the screen positions here -RP
+        this._lastTransitionPosition = null;
 
         this._initWidgetEventHandlers();
 
@@ -46,9 +58,87 @@ define(['js/Constants'
                 connections: [{from: 'start', to: 'go'}, {from: 'go', to: 'stop'}]
             };
 
-        //TODO - here should lie a function that creates the network object
-        this._widget.initNetwork(staticNetwork);
+        /* If the network has been loaded by the simulation
+            plugins using the
+        */
+        if (this._network != null){
+            this._widget.initNetwork(staticNetwork);
+        } else {
+            // Default to example -RP
+            this._widget.initNetwork(staticNetwork);
+        }
     };
+
+    /* This function should be called by our simulation plugins
+        and it should set the network JSON object -RP
+    */
+    JointJsControl.prototype.updateNetwork = function (jsonObject) {
+        this._network = JSON.parse(jsonObject);
+    }
+
+    /* This function should be called by our simulation plugins
+        and it should set the network JSON object -RP
+    */
+   JointJsControl.prototype.createNetwork = function (nodeId) {  
+    var networkDict = {
+        places:[],
+        transitions:[],
+        connections:[]
+    }
+    var client = new GME.classes.Client(GME.gmeConfig);
+    var node = client.getNode(nodeId);
+    var childrenIds = node.getChildrenIds();
+    childrenIds.forEach(function (childId) {
+        var childNode = client.getNode(childId);
+        var childNodeName = childNode.getAttribute('name');
+        var childMetaType = childNode.getMetaType(childNode);
+        var childMetaTypeName = childMetaType.getAttribute('name');
+        if(childMetaTypeName == 'Place'){
+            var childNodeTokens = childNode.getAttribute('tokens');
+            networkDict[places].append({childNodeName:{position: this.getNewPosition('Place'), childNodeTokens}});
+        } else if(childMetaTypeName == 'Transition'){
+            var childNodeTokens = childNode.getAttribute('tokens');
+            // Transitions have thresholds, not inputs and outputs.... need to fix this!!!
+            networkDict[transitions].append({childNodeName:{position: this.getNewPosition('Transition'), input: childNodeTokens, output: {red: 2}}});
+        } else if (childMetaTypeName == 'PlaceToTransition'){
+            var childNodeTokens = childNode.getAttribute('tokens');
+            // Arcs have weights and capacities.... need to fix this!!!
+            networkDict[transitions].append([{from: 'start', to: 'go'}, {from: 'go', to: 'stop'}]);
+        } else if (childMetaTypeName == 'TransitionToPlace'){
+            // Arcs have weights and capacities.... need to fix this!!!
+            networkDict[transitions].append([{from: 'start', to: 'go'}, {from: 'go', to: 'stop'}]);
+        }
+    })
+
+    /* This function gets new screen positions for components that must be drawn -RP
+    */
+    JointJsControl.prototype.getNewPosition = function (componentType) {  
+        if(this._lastPlacePosition == null){
+            this._lastPlacePosition = new Object();
+            this._lastPlacePosition['x'] = 100;
+            this._lastPlacePosition['y'] = 100;
+        }
+        if(this._lastTransitionPosition == null){
+            this._lastTransitionPosition = new Object();
+            this._lastTransitionPosition['x'] = 200;
+            this._lastTransitionPosition['y'] = 50;
+        }
+        if(this._lastScreenPositions == null){
+            if(componentType == 'Place'){
+                this._lastPlacePosition = new Object();
+                this._lastScreenPositions = {x:this._lastPlacePosition['x'], y:this._lastPlacePosition['y']};
+            } else if(componentType == 'Transition') {
+                this._lastPlacePosition = new Object();
+                this._lastScreenPositions = {x:this._lastPlacePosition['x'], y:this._lastPlacePosition['y']};
+            }
+        } else {
+            this._lastPlacePosition = this._lastPlacePosition + 100;
+            this._lastScreenPositions = {x:this._lastScreenPositions['x'], y:this._lastPlacePosition['y']};
+        }
+    }
+
+
+}
 
     /* * * * * * * * Node Event Handling * * * * * * * */
     JointJsControl.prototype._eventCallback = function (events) {
