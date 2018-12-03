@@ -78,7 +78,7 @@ class IsDeterministic(PluginBase):
                 dst_path=core.get_path(dst_node)
                 src_path=core.get_path(src_node)
                 meta_tr=core.get_meta_type(node)
-                if core.get_attribute(meta_tr, 'name')=='PlaceToTransitionArc':
+                if core.get_attribute(meta_tr, 'name')=='PlaceToTransition':
                     #check if thing is enabled
                     thresh=core.get_attribute(dst_node, 'Tokens')
                     tokens=core.get_attribute(src_node, 'Tokens')

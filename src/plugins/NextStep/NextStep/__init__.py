@@ -80,7 +80,7 @@ class NextStep(PluginBase):
                 dst_path=core.get_path(dst_node)
                 src_path=core.get_path(src_node)
                 meta_tr=core.get_meta_type(node)
-                if core.get_attribute(meta_tr, 'name')=='PlaceToTransitionArc':
+                if core.get_attribute(meta_tr, 'name')=='PlaceToTransition':
                     #check if thing is enabled
                     thresh=core.get_attribute(dst_node, 'Tokens')
                     tokens=core.get_attribute(src_node, 'Tokens')
@@ -129,9 +129,10 @@ class NextStep(PluginBase):
                         logger.info("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY DID THIS HAPPEN")
             except Exception as e:
                 logger.info(core.get_path(node))
+                logger.info(core.get_attribute(node, 'name'))
                 logger.info(e)
                 logger.info('NOT A POINTER NODE THINGY')
-            
+        #end of functions    
                 
         self.util.traverse(active_node, per_thing)
         enabled=[]
