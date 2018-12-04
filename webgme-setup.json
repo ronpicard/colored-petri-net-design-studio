@@ -12,6 +12,10 @@
       "SetInitialState": {
         "src": "src/plugins/SetInitialState",
         "test": "test/plugins/SetInitialState"
+      },
+      "Reset": {
+        "src": "src/plugins/Reset",
+        "test": "test/plugins/Reset"
       }
     },
     "visualizers": {
