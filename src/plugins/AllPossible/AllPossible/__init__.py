@@ -27,15 +27,6 @@ class AllPossible(PluginBase):
         root_node = self.root_node
         active_node = self.active_node
 
-        #global pos_fire
-        #name = core.get_attribute(active_node, 'name')
-
-        #logger.info('ActiveNode at "{0}" has name {1}'.format(core.get_path(active_node), name))
-
-        #core.set_attribute(active_node, 'name', 'newName')
-
-        #commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
-        #logger.info('committed :{0}'.format(commit_info))
 
 
         states=[]# a list of cur_state
@@ -50,18 +41,7 @@ class AllPossible(PluginBase):
             for entry in str_ar:
                 dict_ret[entry.split(':')[0]]=int(entry.split(':')[1])
             return dict_ret
-        """
-        def cap_string_to_dict(col_string, cap_string):
-            dict_ret=string_to_dict(col_string)
-            cap_ar=cap_string.split(';')
-            for entry in cap_ar:
-                try:
-                    if dict_ret[entry.split(':')[0]]>int(entry.split(':')[1]):
-                        dict_ret[entry.split(':')[0]]=int(entry.split(':')[1])
-                except:
-                    dict_ret[entry.split(':')[0]]=0
-            return dict_ret
-        """
+    
         def dict_add_cap(dict1, dict2, cap):
             for i in dict2:
                 if i in cap:
@@ -127,7 +107,6 @@ class AllPossible(PluginBase):
                     except Exception as e:
                         logger.info(core.get_path(node))
                         logger.info(e)
-                        #logger.info("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY DID THIS HAPPEN")
             except Exception as e:
                 logger.info(core.get_path(node))
                 logger.info(e)
@@ -177,12 +156,9 @@ class AllPossible(PluginBase):
             for tran in enabled:
                 to_drain=transitions[tran][1]
                 to_feed=transitions[tran][2]
-                #logger.info('NOTICE ME SENPAI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                #logger.info(drains)
-                #logger.info(to_drain)
+                
                 new_state=copy.deepcopy(cur_state)
-                #for place in cur_state:
-                #    new_state[place]=cur_state[place]
+                
                 for place, drain in to_drain:
                     dict_sub(new_state[place], drain)
                 for place, feed in to_feed:
