@@ -30,14 +30,14 @@ class Reset(PluginBase):
                 if name in places_dict:
                     core.set_attribute(node,'Tokens',str(places_dict[name]))
                 else:
-                    logger.info('[ERROR]: Place must have been added after SetIniitalState plugin has run')
+                    logger.info('[INFO]: Place must have been added after SetIniitalState plugin has run')
 
         def get_init_state(node):
             name=core.get_attribute(node,'name')
-            if(name == 'Colored Petri Net'):
+            if(name == 'Network'):
                 return json.loads(core.get_attribute(node,'InitialState'))
             else:
-                logger.info('[ERROR]: Not a the Colored Petri Net node')
+                logger.info('[INFO]: Not the Network node')
 
         places_dict = get_init_state(active_node)
         self.util.traverse(active_node, per_node)

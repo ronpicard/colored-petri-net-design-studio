@@ -30,7 +30,12 @@ class SetInitialState(PluginBase):
                 places_dict[name] = core.get_attribute(node,'Tokens')
 
         def set_init_state(node,places):
-            core.set_attribute(node,'InitialState',places)
+            name = core.get_attribute(node,'name')
+            if(name == 'Network'):
+                core.set_attribute(node,'InitialState',places)
+            else:
+                logger.info('[INFO]: Not Network node')
+
 
         def make_json_string(dictionary):
             return (str(json.dumps(dictionary, indent=4, separators=(',', ': '))))
