@@ -133,7 +133,19 @@ class NextStep(PluginBase):
                 logger.info(e)
                 logger.info('NOT A POINTER NODE THINGY')
         #end of functions    
-                
+
+
+        # reset attribute on network
+        def reset_addtribute(node, attribute):
+            name = core.get_attribute(node, 'name')
+            if(name == 'Network'):
+                core.set_attribute(node, attribute, '')
+            else:
+                logger.info('[INFO]: Not the Network node')
+
+        reset_addtribute(active_node, 'StateSpace')
+        reset_addtribute(active_node, 'IsDeterministic')
+
         self.util.traverse(active_node, per_thing)
         enabled=[]
 

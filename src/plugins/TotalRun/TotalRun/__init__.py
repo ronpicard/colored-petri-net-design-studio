@@ -130,7 +130,19 @@ class TotalRun(PluginBase):
                 logger.info(core.get_path(node))
                 logger.info(e)
                 logger.info('NOT A POINTER NODE THINGY')
-            
+        
+        # reset attribute on network
+        def reset_addtribute(node, attribute):
+            name = core.get_attribute(node, 'name')
+            if(name == 'Network'):
+                core.set_attribute(node, attribute, '')
+            else:
+                logger.info('[INFO]: Not the Network node')
+
+        reset_addtribute(active_node, 'StateSpace')
+        reset_addtribute(active_node, 'IsDeterministic')
+
+
         max_iter=core.get_attribute(active_node, 'Iteration')
         for count in range(max_iter):
             pos_fire={}

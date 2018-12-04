@@ -47,6 +47,16 @@ class Reset(PluginBase):
             else:
                 logger.info('[INFO]: Not the Network node')
 
+        # reset attribute on network
+        def reset_addtribute(node, attribute):
+            name = core.get_attribute(node, 'name')
+            if(name == 'Network'):
+                core.set_attribute(node, attribute, '')
+            else:
+                logger.info('[INFO]: Not the Network node')
+
+        reset_addtribute(active_node, 'StateSpace')
+        reset_addtribute(active_node, 'IsDeterministic')
         places_dict = get_init_state(active_node)
         self.util.traverse(active_node, per_node)
         self.util.save(root_node, self.commit_hash, branch, message)
