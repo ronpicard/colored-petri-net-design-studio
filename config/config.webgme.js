@@ -6,21 +6,23 @@
 var config = require('webgme/config/config.default'),
     validateConfig = require('webgme/config/validator');
 
-
 // The paths can be loaded from the webgme-setup.json
-config.plugin.basePaths.push('src/plugins');
+config.plugin.basePaths.push(__dirname + '/../src/plugins');
 
 
 
-config.visualization.panelPaths.push('src/visualizers/panels');
+config.visualization.panelPaths.push(__dirname + '/../src/visualizers/panels');
+
+
 
 
 // Visualizer descriptors
-config.visualization.visualizerDescriptors.push('./src/visualizers/Visualizers.json');
+config.visualization.visualizerDescriptors.push(__dirname + '/../src/visualizers/Visualizers.json');
 // Add requirejs paths
 config.requirejsPaths = {
   'panels': './src/visualizers/panels',
-  'widgets': './src/visualizers/widgets'
+  'widgets': './src/visualizers/widgets',
+  'petri-net-webgme-app': './src/common'
 };
 
 

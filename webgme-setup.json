@@ -8,6 +8,10 @@
       "IsDeterministic": {
         "src": "src/plugins/IsDeterministic",
         "test": "test/plugins/IsDeterministic"
+      },
+      "SetInitialState": {
+        "src": "src/plugins/SetInitialState",
+        "test": "test/plugins/SetInitialState"
       }
     },
     "visualizers": {
