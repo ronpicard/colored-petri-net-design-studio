@@ -131,6 +131,14 @@ class IsDeterministic(PluginBase):
                 logger.info(e)
                 logger.info('NOT A POINTER NODE THINGY')
 
+        # set attribute value on the network
+        def set_init_state(node, is_deterministic):
+            name = core.get_attribute(node, 'name')
+            if(name == 'Network'):
+                core.set_attribute(node, 'IsDeterministic', is_deterministic)
+            else:
+                logger.info('[INFO]: Not Network node')
+
         max_iter=core.get_attribute(active_node, 'Iteration')
         for count in range(max_iter):
             pos_fire = {}
@@ -168,15 +176,19 @@ class IsDeterministic(PluginBase):
 
             if len(enabled) == 0:
                 logger.info('reached state with no transitions. deterministic')
+                is_deterministic = "True"
                 commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
+                set_init_state(active_node, is_deterministic)
                 logger.info('wrote change')
                 return
             elif len(enabled)>1:
                 logger.info('reached state with multiple enabled transitions. nondeterministic')
+                is_deterministic = "False"
+                set_init_state(active_node, is_deterministic)
                 commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
                 logger.info('wrote change')
                 return
-
+                
             # meh=random.randint(0, len(enabled)-1)
             meh = 0# because there is only one choice
             to_drain = drains[enabled[meh]]
