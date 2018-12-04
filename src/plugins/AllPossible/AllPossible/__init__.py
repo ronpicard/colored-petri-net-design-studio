@@ -6,6 +6,7 @@ import sys
 import logging
 import random
 import copy
+import json
 from webgme_bindings import PluginBase
 
 # Setup a logger
@@ -134,7 +135,15 @@ class AllPossible(PluginBase):
                 meta_tr=core.get_meta_type(node)
                 if core.get_attribute(meta_tr, 'name')=='Place':
                     cur_state[core.get_path(node)]=string_to_dict(core.get_attribute(node, 'Tokens'))
-            
+
+        # set attribute value on the network
+        def set_init_state(node, state_space):
+            name = core.get_attribute(node, 'name')
+            if(name == 'Network'):
+                core.set_attribute(node, 'StateSpace', state_space)
+            else:
+                logger.info('[INFO]: Not Network node')
+
         max_iter=core.get_attribute(active_node, 'Iteration')
         self.util.traverse(active_node, per_thing)
         #logger.info(transitions)
@@ -185,9 +194,13 @@ class AllPossible(PluginBase):
                 break
             cur_state=states[index]
 
+        state_space = []
         #logger.info(states)
         for s in states:
             logger.info(s)
-        #commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
-        #logger.info('wrote change')
+            state_space.append(str(s))
+
+        set_init_state(active_node,str(state_space))
+        commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
+        logger.info('wrote change')
         
