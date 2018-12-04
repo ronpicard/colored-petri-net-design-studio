@@ -12,6 +12,10 @@
       "SetInitialState": {
         "src": "src/plugins/SetInitialState",
         "test": "test/plugins/SetInitialState"
+      },
+      "Reset": {
+        "src": "src/plugins/Reset",
+        "test": "test/plugins/Reset"
       }
     },
     "visualizers": {
@@ -29,24 +33,16 @@
         "secondary": false,
         "widget": "src/visualizers/widgets/JointJs"
       }
+    },
+    "seeds": {
+      "ColoredPetriNetDeveloper": {
+        "src": "src/seeds/ColoredPetriNetDeveloper"
+      }
     }
   },
   "dependencies": {
-    "plugins": {
-      "PyCoreExecutor": {
-        "project": "webgme-icore",
-        "path": "node_modules/webgme-icore/src/plugins/PyCoreExecutor"
-      }
-    },
-    "visualizers": {
-      "ICore": {
-        "src": "panels/ICore/ICorePanel",
-        "title": "ICore",
-        "panel": "src/visualizers/panels/ICore",
-        "secondary": false,
-        "widget": "src/visualizers/widgets/ICore",
-        "project": "webgme-icore"
-      }
-    }
+    "plugins": {},
+    "visualizers": {},
+    "seeds": {}
   }
 }
