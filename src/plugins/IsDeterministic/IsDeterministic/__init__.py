@@ -177,8 +177,8 @@ class IsDeterministic(PluginBase):
             if len(enabled) == 0:
                 logger.info('reached state with no transitions. deterministic')
                 is_deterministic = "True"
-                commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
                 set_init_state(active_node, is_deterministic)
+                commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
                 logger.info('wrote change')
                 return
             elif len(enabled)>1:
