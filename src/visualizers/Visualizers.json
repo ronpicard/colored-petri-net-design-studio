@@ -1,24 +1,6 @@
 [
   {
-    "id": "SimulationVisualizer",
-    "title": "SimulationVisualizer",
-    "panel": "panels/SimulationVisualizer/SimulationVisualizerPanel",
-    "DEBUG_ONLY": false
-  },
-  {
-    "id": "JointJs",
-    "title": "JointJs",
-    "panel": "panels/JointJs/JointJsPanel",
-    "DEBUG_ONLY": false
-  },
-  {
     "id": "ICore",
-    "title": "ICore",
-    "panel": "panels/ICore/ICorePanel",
-    "DEBUG_ONLY": false
-  },
-  {
-    "id": "ICore1",
     "title": "ICore",
     "panel": "panels/ICore/ICorePanel",
     "DEBUG_ONLY": false
