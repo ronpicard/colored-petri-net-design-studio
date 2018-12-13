@@ -16,5 +16,11 @@
     "title": "ICore",
     "panel": "panels/ICore/ICorePanel",
     "DEBUG_ONLY": false
+  },
+  {
+    "id": "ICore1",
+    "title": "ICore",
+    "panel": "panels/ICore/ICorePanel",
+    "DEBUG_ONLY": false
   }
 ]

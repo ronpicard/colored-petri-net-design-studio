@@ -38,11 +38,33 @@
       "ColoredPetriNetDeveloper": {
         "src": "src/seeds/ColoredPetriNetDeveloper"
       }
-    }
+    },
+    "routers": {}
   },
   "dependencies": {
-    "plugins": {},
-    "visualizers": {},
-    "seeds": {}
+    "plugins": {
+      "PyCoreExecutor": {
+        "project": "webgme-icore",
+        "path": "node_modules/webgme-icore/src/plugins/PyCoreExecutor"
+      }
+    },
+    "visualizers": {
+      "ICore": {
+        "src": "panels/ICore/ICorePanel",
+        "title": "ICore",
+        "panel": "src/visualizers/panels/ICore",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/ICore",
+        "project": "webgme-icore"
+      }
+    },
+    "seeds": {},
+    "routers": {
+      "BindingsDocs": {
+        "project": "webgme-bindings",
+        "path": "node_modules/webgme-bindings/src/routers/BindingsDocs",
+        "mount": "bindings-docs"
+      }
+    }
   }
 }
