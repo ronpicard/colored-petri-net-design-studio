@@ -2,7 +2,7 @@ This README document is meant solely for the purpose of giving explicit instruct
 
 For anything else, please see the included Colored Petri Net report.
 
-First, please open a new project from the ColoredPetriNetDeveloper seed. Then click into the "Network" component. Intructions are available within this "Instructions" component if needed.
+First, please open a new project from the ColoredPetriNetDeveloper seed. Then click into the "Network" component. Instructions are available within this "Instructions" component if needed.
 
 These instructions refer to the CPN Network example that is included with our model. However, they should generalize to all models.
 
